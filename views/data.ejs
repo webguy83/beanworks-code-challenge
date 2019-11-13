@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Accounts and Invoices - Beanworks</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1>Beanworks Code Challenge!</h1>
+      </header>
+      <main>
+        <div>
+          <h2>Accounts</h2>
+          <ul>
+            <% data.accounts.forEach((account) => { %>
+            <li><%= account %></li>
+            <% }) %>
+          </ul>
+        </div>
+        <div>
+          <h2>Invoices</h2>
+          <ul>
+            <% data.invoices.forEach((invoice) => { %>
+            <li><%= invoice %></li>
+            <% }) %>
+          </ul>
+        </div>
+        <a href="/download">Save File to Disk</a>
+      </main>
+      <footer>&copy; Curtis Yacboski</footer>
+    </div>
+  </body>
+</html>

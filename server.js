@@ -7,14 +7,14 @@ const app = express();
 if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // use the .env file if on localhost
 const port = process.env.PORT || 5000;
 
-const env = process.env.NODE_ENV ? "https://beanworks.herokuapp.com" : `http://localhost:${port}`;
+const env = process.env.NODE_ENV ? process.env.CALLBACK_URL : `http://localhost:${port}/callback`;
 
 // config file for Xero
 const config = {
     "appType": "public",
     "consumerKey": process.env.CONSUMER_KEY,
     "consumerSecret": process.env.CONSUMER_SECRET,
-    "callbackUrl": `${env}/callback`
+    "callbackUrl": env
 }
 
 const xero = new XeroClient(config);

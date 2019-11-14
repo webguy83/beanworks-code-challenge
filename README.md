@@ -3,15 +3,16 @@
 A coding challenge involving the Xero API for Beanworks using NodeJS. Sign up for a Xero Account and save the accounts and invoice data from a sample app.
 
 ## Installation Instructions
+1. git clone
 
-1. create a .env file in the root and give it two props of your key and secret for the sample app:
+2. create a .env file in the root and give it two props of your key and secret for the sample auth1 app:
 
    ### CONSUMER_KEY=[YOURKEY]
 
    ### CONSUMER_SECRET=[YOURSECRET]
 
-2. npm install
-3. npm start
+3. npm install
+4. npm start
 
 ## Documentation
 

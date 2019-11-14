@@ -7,7 +7,7 @@ const app = express();
 if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // use the .env file if on localhost
 const port = process.env.PORT || 5000;
 
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : `http://localhost:${port}`;
+const env = process.env.NODE_ENV ? "" : `http://localhost:${port}`;
 
 // config file for Xero
 const config = {

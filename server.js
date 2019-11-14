@@ -40,36 +40,42 @@ app.get('/', (_, res) => {
 })
 
 // called after a successful token to add invoices and accounts to data object
-app.get('/callback', (req, res) => {
+app.get('/callback', (req, res, next) => {
     const oauth_verifier = req.query.oauth_verifier;
-    xero.oauth1Client.swapRequestTokenforAccessToken(reqToken, oauth_verifier)
-        .then(() => {
-            return xero.accounts.get(); // get all the accounts from Xero
-        })
-        .then(accounts => {
-            // add accounts to the data object
-            data["accounts"] = accounts.Accounts.map(account => {
-                return account.Name;
-            });
-            // grab all the invoices
-            return xero.invoices.get();
-        })
-        .then(invoices => {
-            // add invoices to the data object
-            data["invoices"] = invoices.Invoices.map(invoice => {
-                return invoice.Contact.Name;
+    if (oauth_verifier) {
+        xero.oauth1Client.swapRequestTokenforAccessToken(reqToken, oauth_verifier)
+            .then(() => {
+                return xero.accounts.get(); // get all the accounts from Xero
             })
-            // send the user to data url to render HTML page with a table of data and a button to save file
-            res.redirect("/data");
-        })
-        .catch(err => console.error(err))
+            .then(accounts => {
+                // add accounts to the data object
+                data["accounts"] = accounts.Accounts.map(account => {
+                    return account.Name;
+                });
+                // grab all the invoices
+                return xero.invoices.get();
+            })
+            .then(invoices => {
+                // add invoices to the data object
+                data["invoices"] = invoices.Invoices.map(invoice => {
+                    return invoice.Contact.Name;
+                })
+                // send the user to data url to render HTML page with a table of data and a button to save file
+                res.redirect("/data");
+            })
+            .catch(err => console.error(err))
+
+    } else {
+        next();
+    }
+
 })
 
-app.get('/data', (_, res) => {
+app.get('/data', (_, res, next) => {
     // check if the data obj is empty. If it is then fire the user back to the home url, otherwise send the data to the data.ejs template in the views folder to be processed
     if (Object.entries(data).length === 0 &&
         data.constructor === Object) {
-        res.redirect('/');
+        next();
     } else {
         res.render('data', {
             data
@@ -78,12 +84,23 @@ app.get('/data', (_, res) => {
 
 })
 
-app.get('/download', (req, res) => {
+app.get('/download', (_, res, next) => {
     // once the user clicks the button this path will be executed. Text formatting being done to the string to be outputted into a downloadable txt file to the user's computer
-    const text = `ACCOUNTS:\n${data.accounts.map(acc => ' ' + acc)}\n\nINVOICES:\n${data.invoices.map(inv => ' ' + inv)}`;
-    res.attachment('beanworks-curtis.txt');
-    res.type('txt');
-    res.send(text);
+    if (Object.entries(data).length === 0 &&
+        data.constructor === Object) {
+        next();
+    } else {
+        const text = `ACCOUNTS:\n${data.accounts.map(acc => ' ' + acc)}\n\nINVOICES:\n${data.invoices.map(inv => ' ' + inv)}`;
+        res.attachment('beanworks-curtis.txt');
+        res.type('txt');
+        res.send(text);
+    }
+})
+
+app.use('/', (_, res) => {
+    res.redirect('/');
 })
 
 app.listen(port);
+
+module.exports.app = app;

@@ -31,4 +31,4 @@ Create a folder on your computer and run the following commands in the terminal:
 
 ## How it works
 
-Once authorized you will be redirected to an HTML page with a list of Accounts and Invoices. Click the "Save File to Disk" button to save .txt file to your computer with the data inside.
+Once authorized you will be redirected to an HTML page with a list of Accounts and Invoices. Click the "Save File to Disk" button to save .txt file to your computer with the data inside and hazzah; you have your data in a text file. :)
